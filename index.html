@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - FinFlow</title>
+    <link rel="icon" type="image/png" href="logo_transparent_background.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for the sign-up page */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 420px;
+            padding: 2rem;
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom">
+        <div class="container">
+            <!-- UPDATED TO USE logo.jpg -->
+            <a href="#" class="navbar-brand d-flex align-items-center">
+                <img src="logo.png" alt="FinFlow Logo" style="height: 45px; margin-right: 0.5rem;">
+                <h5 class="fw-bold text-primary mb-0">FinFlow</h5>
+            </a>
+            <div class="ms-auto">
+                <a href="signin.html" class="btn btn-light">Log In</a>
+                <a href="index.html" class="btn btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="auth-container">
+            <div class="card auth-card">
+                <div class="card-body text-center">
+                    <h2 class="card-title mb-2">Create your account</h2>
+                    <p class="text-muted mb-4">Start tracking your finances today.</p>
+
+                    <div id="alertContainer" class="mt-3"></div>
+
+                    <form action="signup_process.php" method="POST">
+                        <div class="mb-3 text-start">
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="John Doe"
+                                required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="name@example.com" required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="password" class="form-label">Password (min. 6 characters)</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Password" minlength="6" required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                                placeholder="Confirm Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Sign up for free</button>
+                    </form>
+
+                    <div class="mt-4">
+                        <p class="text-muted">Already have an account? <a href="signin.html">Log in</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            const alertContainer = document.getElementById('alertContainer');
+
+            if (error && alertContainer) {
+                let message = '';
+                let alertType = 'alert-danger';
+                switch (error) {
+                    case 'emptyfields':
+                        message = 'Please fill in all fields.';
+                        break;
+                    case 'invalidemail':
+                        message = 'Please provide a valid email address.';
+                        break;
+                    case 'passwordnomatch':
+                        message = 'Passwords do not match.';
+                        break;
+                    case 'emailtaken':
+                        message = 'This email is already registered. Please sign in or use a different email.';
+                        break;
+                    default:
+                        message = 'An unknown error occurred.';
+                }
+                alertContainer.innerHTML = `<div class="alert ${alertType} alert-dismissible fade show" role="alert">
+                                                ${message}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>`;
+            }
+        });
+    </script>
+</body>
+
+</html>
